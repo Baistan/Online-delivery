@@ -10,6 +10,7 @@ class Product(models.Model):
         ('Компьютер','Компьютер'),
         ('Видеокарта','Видеокарта'),
         ('Жесткий диск','Жесткий диск'),
+        ('Зарядные устройства', 'Зарядные устройства')
     )
     name = models.CharField(max_length=50,null=True)
     price = models.FloatField(null=True)
@@ -29,6 +30,7 @@ class Customer(models.Model):
         ('Компьютер','Компьютер'),
         ('Компьютер','Компьютер'),
         ('Жесткий диск','Жесткий диск'),
+        ('Зарядные устройства','Зарядные устройства')
     )
     full_name = models.CharField(max_length=200,null=True)
     adress = models.CharField(max_length=200,null=True)
