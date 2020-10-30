@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from .models import *
@@ -6,19 +7,37 @@ from .forms import OrderForm
 from .filters import OrderFilterSet
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomerRegisterForm
+from django.contrib import messages
+from django.contrib.auth import login, authenticate, logout
 
 
 def register(request):
-    form = UserCreationForm
+    form = CustomerRegisterForm
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomerRegisterForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request,message='Success Registration')
+            return redirect('home')
     context = {'form':form}
     return render(request,'store/register.html',context)
 
 
+def login_page(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request,username=username,password=password)
+        login(request,user)
+        #if user is not None:
+        return redirect('home')
+    context = {}
+    return render(request,'store/login.html',context)
 
+
+
+@login_required(login_url='login')
 def home_page(request):
     orders_count = Order.objects.all().count()
     delivered = Order.objects.filter(status='Delivered').count()
@@ -28,6 +47,12 @@ def home_page(request):
     orders = Order.objects.all()
     context = {'orders': orders,'customers': customers,'orders_count':orders_count,'pending':pending,'delivered':delivered,'not_delivered':not_delivered}
     return render(request,'store/home.html',context)
+
+
+def logout_page(request):
+    logout(request)
+    return redirect('login')
+
 
 def products_page(request):
     products =  Product.objects.all()
