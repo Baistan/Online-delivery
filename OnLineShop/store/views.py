@@ -10,8 +10,10 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomerRegisterForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from .decorators import *
 
 
+@unauth_user
 def register(request):
     form = CustomerRegisterForm
     if request.method == 'POST':
@@ -24,6 +26,14 @@ def register(request):
     return render(request,'store/register.html',context)
 
 
+def user_page(request):
+    orders = request.user.customer.order_set.all()
+
+    context = {'orders':orders}
+    return render(request,'store/user_page.html',context)
+
+
+@unauth_user
 def login_page(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -33,11 +43,12 @@ def login_page(request):
         #if user is not None:
         return redirect('home')
     context = {}
-    return render(request,'store/login.html',context)
+    return render(request, 'store/login.html', context)
 
 
 
 @login_required(login_url='login')
+@admin_only
 def home_page(request):
     orders_count = Order.objects.all().count()
     delivered = Order.objects.filter(status='Delivered').count()
@@ -59,6 +70,7 @@ def products_page(request):
     context = {'products': products}
     return render(request,'store/product.html',context)
 
+@admin_only
 def customer_page(request,pk):
     try:
         customer = Customer.objects.get(id=pk)
