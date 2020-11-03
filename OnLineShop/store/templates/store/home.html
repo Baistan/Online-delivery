@@ -19,6 +19,7 @@
 						<td><a class="btn btn-secondary" href="{% url 'customer' customer.id %}">View</a></td>
 						<td>{{ customer.full_name }}</td>
 						<td>{{ customer.phone }}</td>
+                        <td>{{ customer.image_field }}</td>
 						</tr>
 					{% endfor %}
 
