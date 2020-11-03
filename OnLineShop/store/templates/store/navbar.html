@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a style="color:goldenrod" class="navbar-brand" href="#">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -7,13 +7,13 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'home' %}">Home<span class="sr-only">(current)</span></a>{% url 'home' %}
+        <a style="color:goldenrod" class="nav-link" href="{% url 'home' %}">Home<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'products' %}">Products</a>
+        <a style="color:goldenrod" class="nav-link" href="{% url 'products' %}">Products<span class="sr-only">(current)</span></a>
       </li>
     </ul>
-    <span style="color:#ffffff">Hello, {{ request.username }}</span>
+    <span style="color:darkgray">Hello, {{ request.user }}</span>
       <span><a href="{%  url 'logout' %}">logout</a></span>
   </div>
 </nav>
