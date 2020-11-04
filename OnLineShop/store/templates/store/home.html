@@ -41,7 +41,7 @@
 				</tr>
 					{% for order in orders %}
 						<tr>
-						<td>{{ order.customer }}</td>
+						<td>{{ order.product }}</td>
 						<td>{{ order.date_created}}</td>
 						<td>{{ order.status }}</td>
 						<td><a class="btn btn-info" href="{% url 'update_order' order.id %}">Update</a></td>
