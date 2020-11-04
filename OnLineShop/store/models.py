@@ -31,7 +31,11 @@ class Customer(models.Model):
     adress = models.CharField(max_length=200,null=True)
     phone = models.CharField(max_length=200,null=True)
     email = models.CharField(max_length=200,null=True)
-    image = models.ImageField()
+    image = models.ImageField(null=True,blank=True)
+    github_link = models.CharField(null=True,blank=True,max_length=100)
+    insta_link = models.CharField(null=True, blank=True,max_length=100)
+    twitter_link = models.CharField(null=True, blank=True,max_length=100)
+    facebook_link = models.CharField(null=True, blank=True,max_length=100)
 
     def __str__(self):
         return self.full_name
