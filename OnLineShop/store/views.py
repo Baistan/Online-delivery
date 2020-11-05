@@ -19,7 +19,10 @@ def register(request):
     if request.method == 'POST':
         form = CustomerRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            group = Group.objects.get(name='customer')
+            Customer.objects.create(user=user,full_name=user.username)
+            user.groups.add(group)
             messages.success(request,message='Success Registration')
             return redirect('home')
     context = {'form':form}
@@ -40,8 +43,9 @@ def login_page(request):
         password = request.POST.get('password')
         user = authenticate(request,username=username,password=password)
         login(request,user)
-        #if user is not None:
-        return redirect('home')
+        if user is not None:
+            login(request, user)
+            return redirect('home')
     context = {}
     return render(request, 'store/login.html', context)
 
@@ -110,7 +114,7 @@ def update_order(request,pk):
 
 
 def account_settings(request):
-    user =request.user.customerre
+    user =request.user.customer
     form = UserProfile(instance=user)
     if request.method == 'POST':
         form = UserProfile(request.POST,request.FILES,instance=user)
